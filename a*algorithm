@@ -1,0 +1,31 @@
+function A*(start, goal):
+    open_list ← priority queue ordered by f(n) = g(n) + h(n)
+    closed_list ← empty set
+
+    g(start) ← 0
+    f(start) ← g(start) + h(start)
+    open_list.insert(start, f(start))
+
+    while open_list is not empty:
+        current ← node in open_list with lowest f value
+        if current = goal:
+            return path from start to goal
+
+        remove current from open_list
+        add current to closed_list
+
+        for each neighbor of current:
+            if neighbor in closed_list:
+                continue
+
+            tentative_g ← g(current) + cost(current, neighbor)
+
+            if neighbor not in open_list or tentative_g < g(neighbor):
+                g(neighbor) ← tentative_g
+                f(neighbor) ← g(neighbor) + h(neighbor)
+                parent(neighbor) ← current
+
+                if neighbor not in open_list:
+                    open_list.insert(neighbor, f(neighbor))
+
+    return failure
